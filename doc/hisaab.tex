@@ -1,0 +1,158 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{wasysym}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{framed}
+\usetikzlibrary{positioning,shapes,arrows,backgrounds,fit, calc,automata,shadows}
+\usetikzlibrary{decorations.markings}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{marvosym}
+\usepackage{amsfonts}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+
+\title{Hisaab}
+\begin{document}
+  \tikzstyle{ss} = [draw=gray, thick, fill=white, rounded corners, rectangle, inner sep=15pt]
+\maketitle
+\definecolor{lightblue}{rgb}{0.8,0.93,1.0} % color values Red, Green, Blue
+\definecolor{Blue}{rgb}{0,0,1.0} % color values Red, Green, Blue
+\definecolor{Red}{rgb}{1,0,0} % color values Red, Green, Blue
+
+\section{Problem Description}
+\begin{center}
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[auto,
+    ->,
+  %  shorten >=2pt,
+    >=stealth,
+  %  node distance=1cm,
+    r/.style={%
+      rectangle, draw=black, thick, fill=lightblue, drop shadow,
+      text ragged, minimum height=2em, minimum width=2em, inner sep=6pt
+    },
+    t/.style={%
+      circle, draw=black, thick, fill=pink, drop shadow,
+      text ragged, minimum height=2em, inner sep=6pt
+    }
+  ]
+    \node[r] (r1)                  {A};
+    \node[r] (r2)  [below = of r1] {B};
+    \node[r] (r3)  [below = of r2] {C};
+    \node[r] (r4)  [right = of r2] {D};
+    \node[r] (r5)  [right = of r4] {E};
+    \node[r] (r6)  [above = of r5] {F};
+    \node[r] (r7)  [below = of r5] {G};
+    
+	\draw[->] (r2) to node{10}(r3);
+	\draw[->] (r1) to node{20}(r2);
+	\draw[->] (r2) to node{10}(r4);
+	\draw[->] (r4) to node{30}(r3);
+	\draw[->] (r1) to node{15}(r6);
+	\draw[->] (r6) to node{100}(r5);
+	\draw[->] (r7) to node{25}(r5);
+	\draw[->] (r5) to node{150}(r4);
+	\draw[->] (r3) to node{30}(r7);
+	\draw[->] (r7) to node{90}(r4);
+
+	\node[draw=none] at (5, -2) {$\Longrightarrow$};
+
+    \node[r] (r8)  [right = of r6, xshift=1cm] {A};
+    \node[r] (r9)  [below = of r8] {B};
+    \node[r] (r10)  [below = of r9] {C};
+    \node[r] (r11)  [right = of r9] {D};
+    \node[r] (r12)  [right = of r11] {E};
+    \node[r] (r13)  [above = of r12] {F};
+    \node[r] (r14)  [below = of r12] {G};
+
+	\draw[->] (r11) to node{10}(r10);
+	\draw[->] (r8) to node{35}(r11);
+	\draw[->] (r13) to node{85}(r11);
+	\draw[->] (r12) to node{25}(r11);
+	\draw[->] (r14) to node{85}(r11);
+
+  \end{tikzpicture}
+}
+\end{center}
+
+\section{Transform}
+\begin{center}
+\resizebox{0.5\textwidth}{!}{%
+\begin{tikzpicture}[auto,
+    ->,
+  %  shorten >=2pt,
+    >=stealth,
+  %  node distance=1cm,
+    r/.style={%
+      rectangle, draw=black, thick, fill=lightblue, drop shadow,
+      text ragged, minimum height=2em, minimum width=2em, inner sep=6pt
+    },
+    t/.style={%
+      circle, draw=black, thick, fill=pink, drop shadow,
+      text ragged, minimum height=2em, inner sep=6pt
+    }
+  ]
+    \node[r] (r1)                  {1};
+    \node[r] (r2)  [below = of r1] {2};
+    \node[r] (r3)  [right = of r1] {3};
+    
+	\draw[->] (r2) to node{$w$}(r3);
+
+	\node[draw=none] at (3.5, -1) {$\Rightarrow$};
+	
+    \node[r] (r4)  [right = of r1, xshift= 3cm]                {1};
+    \node[r] (r5)  [below = of r4] {2};
+    \node[r] (r6)  [right = of r4] {3};
+    
+	\draw[->] (r5) to node{$w$}(r4);
+	\draw[->] (r4) to node{$w$}(r6);
+
+  \end{tikzpicture}
+}
+\end{center}
+
+
+\begin{center}
+\resizebox{0.5\textwidth}{!}{%
+\begin{tikzpicture}[auto,
+    ->,
+  %  shorten >=2pt,
+    >=stealth,
+  %  node distance=1cm,
+    r/.style={%
+      rectangle, draw=black, thick, fill=lightblue, drop shadow,
+      text ragged, minimum height=2em, minimum width=2em, inner sep=6pt
+    },
+    t/.style={%
+      circle, draw=black, thick, fill=pink, drop shadow,
+      text ragged, minimum height=2em, inner sep=6pt
+    }
+  ]
+    \node[r] (r1)                  {1};
+    \node[r] (r2)  [below = of r1] {2};
+    
+	\draw[->, bend right] (r1) to node{$w_1$}(r2);
+	\draw[->, bend right] (r2) to node[right]{$w_2$}(r1);
+
+	\node[draw=none] at (3.5, -1) {$\Rightarrow$};
+	
+    \node[r] (r3)  [right = of r1, xshift= 3cm]                {1};
+    \node[r] (r4)  [below = of r4] {2};
+    
+	\draw[->] (r3) to node{$w_1 - w_2$}(r4);
+
+  \end{tikzpicture}
+}
+\end{center}
+
+\end{document}
